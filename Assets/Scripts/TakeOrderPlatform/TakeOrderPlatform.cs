@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
-public class TakeOrderPlatform : MonoBehaviour
+public class TakeOrderPlatform : MonoBehaviour, IPlaceTakeOrder
 {
-    [SerializeField] private List<FoodOrder> _ordersStart;
+    private bool _isCloseDelivery;
 
-    private Queue<FoodOrder> _orders;
+    public bool CheckStateDelivery() => _isCloseDelivery;
 
     private void OnTriggerEnter(Collider other)
     {
-        IServer server = other.gameObject.GetComponent<IServer>();
+        IBoxOrder boxOrder = other.gameObject.GetComponent<IBoxOrder>();
 
-        if (server != null)
+        if (boxOrder != null && !boxOrder.IsDelivery())
         {
-            server.TakeOrder(_orders.Dequeue());
+            boxOrder.SetDeliveryState(this);
+
+            if (boxOrder.IsDelivery())
+                _isCloseDelivery = true;
         }
+
     }
 }
 

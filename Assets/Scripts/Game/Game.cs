@@ -1,13 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] private List<GameMono> _gameObject;
 
-    private void Update()
+    [SerializeField] private CameraMoving _camera;
+
+    [SerializeField] private Player _player;
+
+    [SerializeField] private GameUI _gameUI;
+
+    private void Start()
     {
-        foreach (GameMono obj in _gameObject)
-            obj.GameUpdate();
+        _camera.InitCamera(_player);
+
+        UnityEvent onJump = new UnityEvent();
+
+        _gameUI.Initialization(out onJump);
+
+        _player.Initialization(onJump);
     }
 }
