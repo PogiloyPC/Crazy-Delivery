@@ -74,7 +74,7 @@ public class PlayerHealthTest
     {
         _playerHealth.TakeDamageDiller(new DamageDillerTester(1));
         _playerHealth.TakeDamageDiller(new DamageDillerTester(1));
-        _playerHealth.ReplenishHealth(new ReplenishObjectTester(1));
+        _playerHealth.TakeReplenishObject(new ReplenishObjectTester(1));
 
         Assert.AreEqual(2, _playerHealth.GetCountHert());
     }
@@ -84,8 +84,8 @@ public class PlayerHealthTest
     {
         _playerHealth.TakeDamageDiller(new DamageDillerTester(1));
         _playerHealth.TakeDamageDiller(new DamageDillerTester(1));
-        _playerHealth.ReplenishHealth(new ReplenishObjectTester(1));
-        _playerHealth.ReplenishHealth(new ReplenishObjectTester(1));
+        _playerHealth.TakeReplenishObject(new ReplenishObjectTester(1));
+        _playerHealth.TakeReplenishObject(new ReplenishObjectTester(1));
 
         Assert.AreEqual(3, _playerHealth.GetCountHert());
     }

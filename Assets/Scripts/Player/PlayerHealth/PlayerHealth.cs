@@ -1,14 +1,13 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth
 {
     private Stack<PlayerHert> _playerAliveHerts = new Stack<PlayerHert>();
     private Stack<PlayerHert> _playerBrokeHerts = new Stack<PlayerHert>();
 
     public bool Immortal { get; private set; }
 
-    public void InitializePlayerHealth(List<IViewHealth> viewsHealth)
+    public PlayerHealth(List<ViewHert> viewsHealth)
     {
         for (int i = 0; i < viewsHealth.Count; i++)
         {
@@ -27,12 +26,12 @@ public class PlayerHealth : MonoBehaviour
             _playerBrokeHerts.Push(_playerAliveHerts.Pop());
     }
 
-    public void ReplenishHealth(IReplenishObject replenishObject)
+    public void TakeReplenishObject(IReplenishObject replenishObject)
     {
         IHert hert = _playerBrokeHerts.Peek();
         hert.ReplenishHert(replenishObject);
 
-        if (hert.GetCurrentHealth() >= 1)
+        if (hert.GetCurrentHealth() >= Game.GetGameTime())
             _playerAliveHerts.Push(_playerBrokeHerts.Pop());
     }
 

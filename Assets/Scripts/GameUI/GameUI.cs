@@ -1,13 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class GameUI : MonoBehaviour
 {
-    [SerializeField] private Button _jumpButton;
+    [SerializeField] private List<ViewHert> _viewHerts;
 
-    public void Initialization(out UnityEvent onJump)
+    [SerializeField] private Button _jumpButton;
+    [SerializeField] private Button _throwButton;
+
+    public void Initialization(out UnityEvent onJump, out UnityEvent onThrow, out PlayerHealth playerHealth)
     {
-        onJump = _jumpButton.onClick;     
+        playerHealth = new PlayerHealth(_viewHerts);
+
+        onJump = _jumpButton.onClick;
+        onThrow = _throwButton.onClick;
     }
 }

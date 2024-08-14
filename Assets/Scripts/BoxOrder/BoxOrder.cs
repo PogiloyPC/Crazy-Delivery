@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BoxOrder : MonoBehaviour, IBoxOrder
+public class BoxOrder : MonoBehaviour, IBoxOrder, IInteractiveObject
 {
     private bool _isDelivery;
 

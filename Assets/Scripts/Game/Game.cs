@@ -12,14 +12,24 @@ public class Game : MonoBehaviour
 
     [SerializeField] private GameUI _gameUI;
 
+    private const int _maxDamage = 1;
+    private const int _gameTime = 6;
+
     private void Start()
     {
+        PlayerHealth playerHealth;
+
         _camera.InitCamera(_player);
 
         UnityEvent onJump = new UnityEvent();
+        UnityEvent onThrow = new UnityEvent();
 
-        _gameUI.Initialization(out onJump);
+        _gameUI.Initialization(out onJump, out onThrow, out playerHealth);
 
-        _player.Initialization(onJump);
+        _player.Initialization(onJump, onThrow, playerHealth);
     }
+
+    public static int GetGameTime() => _gameTime;
+
+    public static int GetMaxDamagePlayer() => _maxDamage;
 }

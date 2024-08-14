@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-public class DamageDiller : MonoBehaviour, IDamageDiller
+public class DamageDiller : MonoBehaviour, IDamageDiller, IInteractiveObject
 {
-    public int GetDamage() => 0;
+    [SerializeField] private int _damage;
+
+    public int GetDamage() => _damage;
 }

@@ -8,35 +8,35 @@ public class Player : Character, IPlayerPoint, IPlayer
 
     [SerializeField] private FixedJoystick _fixedJoystick;
 
+    [SerializeField] private AnimationCurve _climbCurve;
+
     [SerializeField] private Point _playerPoint;
     [SerializeField] private Point _groundPoint;
 
     [SerializeField] private PlayerOrderPack _playerOrderPack;
+    [SerializeField] private PlayerHand _playerHand;
+    [SerializeField] private PlayerHandler _playerHandler;
+    private PlayerHealth _playerHealth;
 
     private PlayerMovement _playerMovement;
 
-    private Action<IBoxOrder> _onTakeBoxOrder;
-
     [SerializeField] private LayerMask _groundMask;
-
+    
     [SerializeField] private float _forceJump;
     [SerializeField] private float _radiusSphereGround;
 
-    public void Initialization(UnityEvent onJump)
-    {
-        _playerMovement = new PlayerMovement(_fixedJoystick, _rb, onJump, this, Speed, _forceJump);
 
-        _playerOrderPack.Initialization(out _onTakeBoxOrder);
+    public void Initialization(UnityEvent onJump, UnityEvent onThrow, PlayerHealth playerHealth)
+    {
+        _playerMovement = new PlayerMovement(_climbCurve, _fixedJoystick, _rb, onJump, this, Speed, _forceJump);
+        _playerHand.Initialization(onThrow);
+        _playerHealth = playerHealth;
+        _playerHandler = new PlayerHandler(_playerHealth, _playerOrderPack);
     }
 
     public override void GameUpdate()
     {
 
-    }
-
-    private void Update()
-    {
-        
     }
 
     private void FixedUpdate()
@@ -58,10 +58,16 @@ public class Player : Character, IPlayerPoint, IPlayer
 
     private void OnCollisionEnter(Collision other)
     {
-        IBoxOrder boxOrder = other.gameObject.GetComponent<IBoxOrder>();
+        IInteractiveObject interactiveObject = other.gameObject.GetComponent<IInteractiveObject>();
 
-        if (boxOrder != null)
-            _onTakeBoxOrder.Invoke(boxOrder);
+        if (interactiveObject != null)
+            _playerHandler.HandleInteractiveObject(interactiveObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(_groundPoint.GetPosition(), _radiusSphereGround);
     }
 }
 

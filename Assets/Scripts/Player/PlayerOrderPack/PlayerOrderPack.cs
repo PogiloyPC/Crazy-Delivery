@@ -6,24 +6,7 @@ public class PlayerOrderPack : MonoBehaviour, IPlayerOrderPack
 {
     private Stack<IBoxOrder> _boxOrders = new Stack<IBoxOrder>();
 
-    private Action<IBoxOrder> _onTakeBoxOrder;
-
-    private void OnEnable()
-    {
-        _onTakeBoxOrder += TakeBoxOrder;   
-    }
-
-    private void OnDisable()
-    {
-        _onTakeBoxOrder -= TakeBoxOrder;
-    }
-
-    public void Initialization(out Action<IBoxOrder> onTakeBoxOrder)
-    {
-        onTakeBoxOrder = _onTakeBoxOrder;
-    }
-
-    private void TakeBoxOrder(IBoxOrder box)
+    public void TakeBoxOrder(IBoxOrder box)
     {
         box.SetParent(this);
 

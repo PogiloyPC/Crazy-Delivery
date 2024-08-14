@@ -2,23 +2,28 @@
 
 public abstract class PlayerController : ScriptableObject
 {
-    public abstract void ControlePlayer();
+    public abstract float VerticalMove();
 
-    protected void ThrowOrder()
-    {
-
-    }
+    public abstract float HorizontalMove();
 }
 
 public class MobilePlayerController : PlayerController
 {
-    public MobilePlayerController()
-    {
+    private FixedJoystick _joystick;
 
+    public MobilePlayerController(FixedJoystick joystick)
+    {
+        _joystick = joystick;
     }
 
-    public override void ControlePlayer()
-    {
+    public override float HorizontalMove() => _joystick.Horizontal;
 
-    }
+    public override float VerticalMove() => _joystick.Vertical;
+}
+
+public class PCPlayerController : PlayerController
+{
+    public override float HorizontalMove() => Input.GetAxis("Horizontal");
+
+    public override float VerticalMove() => Input.GetAxis("Vertical");
 }

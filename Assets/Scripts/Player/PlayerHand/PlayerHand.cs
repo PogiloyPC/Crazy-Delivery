@@ -1,8 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerHand : MonoBehaviour
 {
-    public void ThrowOrderBox()
+    public void Initialization(UnityEvent onThrow)
+    {
+        onThrow.AddListener(ThrowOrderBox);
+    }
+
+    private void ThrowOrderBox()
     {
 
     }
